@@ -1777,13 +1777,12 @@ export class Transaction {
       if (inp.finalScriptWitness && !inp.finalScriptWitness.length) delete inp.finalScriptWitness;
     }
     const outputs = this.outputs.map((i) => cleanPSBTFields(PSBTVersion, PSBTOutput, i));
-    const global = { ...this.global };
+    const global = { ...this.global, version: PSBTVersion };
     if (PSBTVersion === 0) {
       global.unsignedTx = RawTx.decode(this.unsignedTx);
       delete global.fallbackLocktime;
       delete global.txVersion;
     } else {
-      global.version = PSBTVersion;
       global.txVersion = this.version;
       global.inputCount = this.inputs.length;
       global.outputCount = this.outputs.length;
